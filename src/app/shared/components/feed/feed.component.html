@@ -1,0 +1,28 @@
+<ng-container *ngIf="store$ | async as data">
+  <div *ngIf="data.isLoading">Loading...</div>
+  <div *ngIf="data.error">{{ data.error }}</div>
+
+  <div *ngIf="data.feed">
+    <div class="article-preview" *ngFor="let item of data.feed.articles">
+      <div class="article-meta">
+        <a [routerLink]="['/profiles', item.author.username]">
+          <img [src]="item.author.image" [alt]="item.author.username" />
+        </a>
+        <div class="info">
+          <a [routerLink]="['/profiles', item.author.username]">
+            {{ item.author.username }}
+          </a>
+          <span class="date">{{ item.createdAt }}</span>
+        </div>
+        <div class="pull-xs-right">Add to Favorite</div>
+      </div>
+      <a [routerLink]="['/articles', item.slug]" class="preview-link">
+        <h1>{{ item.title }}</h1>
+        <p>{{ item.description }}</p>
+        <span>READ MORE..</span>
+        Tag List
+      </a>
+    </div>
+    Pagination
+  </div>
+</ng-container>
