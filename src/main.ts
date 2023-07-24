@@ -13,6 +13,8 @@ import * as feedEffects from './app/shared/store/effects';
 import { provideRouterStore, routerReducer } from '@ngrx/router-store';
 import { authInterceptor } from './app/shared/services/auth.interceptor';
 import { feedFeatureKey, feedReducer } from './app/shared/store/reducers';
+import { tagFeatureKey, tagReducer } from './app/shared/store/reducers(tags)';
+import * as tagsEffects from './app/shared/store/effects(tags)';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -29,8 +31,9 @@ bootstrapApplication(AppComponent, {
     }),
     provideState(authFeatureKey, authReducer),
     provideState(feedFeatureKey, feedReducer),
+    provideState(tagFeatureKey, tagReducer),
     provideHttpClient(withInterceptors([authInterceptor])),
-    provideEffects(authEffects, feedEffects),
+    provideEffects(authEffects, feedEffects, tagsEffects),
     provideRouterStore(),
   ],
 });

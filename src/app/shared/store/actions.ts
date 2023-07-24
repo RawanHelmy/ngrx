@@ -9,3 +9,11 @@ export const feedActions = createActionGroup({
     'get feed failure': emptyProps(),
   },
 });
+export const tagActions = createActionGroup({
+  source: 'tag',
+  events: {
+    'get tags': emptyProps(),
+    'get tags success': props<{ tags: string[] }>(),
+    'get tags failure': emptyProps(),
+  },
+});

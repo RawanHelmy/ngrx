@@ -52,8 +52,8 @@ export const loginEffect = createEffect(
   ) => {
     return actions$.pipe(
       ofType(authActions.login),
-      switchMap((user) => {
-        return authService.login(user).pipe(
+      switchMap((user: any) => {
+        return authService.login(user.user).pipe(
           map((currentUser: CurrentUserInterface) => {
             presistanceService.set('token', currentUser.token);
             return authActions.loginSuccess({ user: currentUser });
