@@ -1,7 +1,9 @@
 <ng-container *ngIf="store$ | async as data">
-  <div *ngIf="data.isLoading">Loading...</div>
-  <div *ngIf="data.error">{{ data.error }}</div>
-
+  <app-loading *ngIf="data.isLoading"></app-loading>
+  <app-error-message
+    *ngIf="data.error"
+    [message]="data.error"
+  ></app-error-message>
   <div *ngIf="data.feed">
     <div class="article-preview" *ngFor="let item of data.feed.articles">
       <div class="article-meta">
@@ -20,9 +22,14 @@
         <h1>{{ item.title }}</h1>
         <p>{{ item.description }}</p>
         <span>READ MORE..</span>
-        Tag List
+        <app-tag-list [tags]="item.tagList"></app-tag-list>
       </a>
     </div>
-    Pagination
+    <app-pagination
+      [total]="data.feed.articlesCount"
+      [limit]="20"
+      [url]="baseUrl"
+      [currentPage]="currentPage"
+    ></app-pagination>
   </div>
 </ng-container>
