@@ -28,15 +28,15 @@ const tagFeature = createFeature({
       isLoading: false,
       error: '',
       tags: null,
-    })),
-    on(routerNavigationAction, () => initialState)
+    }))
+    // on(routerNavigationAction, () => initialState)
   ),
 });
 
 export const {
   name: tagFeatureKey,
   reducer: tagReducer,
-  selectIsLoading,
-  selectError,
+  selectIsLoading: selectIsLoadingTags,
+  selectError: selectErrorTags,
   selectTags,
 } = tagFeature;

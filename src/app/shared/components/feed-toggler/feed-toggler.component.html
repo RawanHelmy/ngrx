@@ -1,30 +1,29 @@
 <div class="feed-toggle">
-  <ul class="nav nav-pill outline-active">
+  <ul class="nav nav-pills outline-active">
     <li class="nav-item" *ngIf="currentUser$ | async">
-      <a
-        [routerLink]="['/feed']"
-        routerLinkActive="router-link-active"
-        class="nav-link"
-        >Your Feed</a
+      <a routerLink="/feed" class="nav-link" routerLinkActive="active"
+        >Your feed</a
       >
     </li>
     <li class="nav-item">
       <a
-        [routerLink]="['/']"
-        routerLinkActive="router-link-active"
+        routerLink="/"
         class="nav-link"
-        >Globals Feed</a
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        queryParamsHandling="merge"
+        >Global feed</a
       >
     </li>
     <li class="nav-item" *ngIf="tagName">
       <a
         [routerLink]="['/tags', tagName]"
-        routerLinkActive="router-link-active"
         class="nav-link"
+        routerLinkActive="active"
       >
         <i class="ion-pound"></i>
-        {{ tagName }}</a
-      >
+        {{ tagName }}
+      </a>
     </li>
   </ul>
 </div>

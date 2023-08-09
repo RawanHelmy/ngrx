@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { tagActions } from '../../store/actions';
 import {
-  selectError,
-  selectIsLoading,
+  selectErrorTags,
+  selectIsLoadingTags,
   selectTags,
 } from '../../store/reducers(tags)';
 import { combineLatest } from 'rxjs';
@@ -21,8 +21,8 @@ import { RouterLink } from '@angular/router';
 export class PopularTagsComponent implements OnInit {
   data$ = combineLatest({
     tags: this.store.select(selectTags),
-    loading: this.store.select(selectIsLoading),
-    error: this.store.select(selectError),
+    loading: this.store.select(selectIsLoadingTags),
+    error: this.store.select(selectErrorTags),
   });
 
   constructor(private store: Store) {}
