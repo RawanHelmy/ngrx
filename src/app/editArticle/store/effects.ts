@@ -2,23 +2,23 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { switchMap, map, catchError, of, tap, pipe } from 'rxjs';
-import { ArticlesService } from 'src/app/shared/services/articles.service';
-import { articleActions } from './actions';
-import { ArticleInterface } from 'src/app/shared/types/article.interface';
-import { ArticleService } from '../services/article.service';
 import { Router } from '@angular/router';
+import { edtiArticleActions } from './actions';
+import { EditArticleService } from '../services/edit-article.service';
+import { ArticlesService } from 'src/app/shared/services/articles.service';
+import { ArticleInterface } from 'src/app/shared/types/article.interface';
 
 export const articleEffect = createEffect(
   (actions$ = inject(Actions), articleService = inject(ArticlesService)) => {
     return actions$.pipe(
-      ofType(articleActions.getArticle),
+      ofType(edtiArticleActions.getArticle),
       switchMap(({ slug }) => {
         return articleService.getArticle(slug).pipe(
           map((article: ArticleInterface) => {
-            return articleActions.getArticleSuccess({ article: article });
+            return edtiArticleActions.getArticleSuccess({ article: article });
           }),
           catchError((err: HttpErrorResponse) => {
-            return of(articleActions.getArticleFailure());
+            return of(edtiArticleActions.getArticleFailure());
           })
         );
       })
@@ -26,17 +26,25 @@ export const articleEffect = createEffect(
   },
   { functional: true }
 );
-export const deleteArticleEffect = createEffect(
-  (actions$ = inject(Actions), articleService = inject(ArticleService)) => {
+
+export const editArticleEffect = createEffect(
+  (
+    actions$ = inject(Actions),
+    editArticleService = inject(EditArticleService)
+  ) => {
     return actions$.pipe(
-      ofType(articleActions.deleteArticle),
-      switchMap(({ slug }) => {
-        return articleService.deleteArticle(slug).pipe(
-          map(() => {
-            return articleActions.deleteArticleSuccess();
+      ofType(edtiArticleActions.editArticle),
+      switchMap(({ request, slug }) => {
+        return editArticleService.editArticle(request, slug).pipe(
+          map((article) => {
+            return edtiArticleActions.editArticleSuccess({ article });
           }),
           catchError((err: HttpErrorResponse) => {
-            return of(articleActions.deleteArticleFailure());
+            return of(
+              edtiArticleActions.editArticleFailure({
+                errors: err.error.errors,
+              })
+            );
           })
         );
       })
@@ -44,13 +52,13 @@ export const deleteArticleEffect = createEffect(
   },
   { functional: true }
 );
-export const redirectAfterDelete = createEffect(
+export const redirectAfterEdit = createEffect(
   (actions$ = inject(Actions), router = inject(Router)) => {
     return actions$.pipe(
-      ofType(articleActions.deleteArticleSuccess),
+      ofType(edtiArticleActions.editArticleSuccess),
       pipe(
-        tap(() => {
-          router.navigateByUrl('/');
+        tap(({ article }) => {
+          router.navigate(['/articles', article.slug]);
         })
       )
     );

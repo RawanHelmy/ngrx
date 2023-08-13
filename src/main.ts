@@ -15,6 +15,21 @@ import { authInterceptor } from './app/shared/services/auth.interceptor.service'
 import { feedFeatureKey, feedReducer } from './app/shared/store/reducers';
 import { tagFeatureKey, tagReducer } from './app/shared/store/reducers(tags)';
 import * as tagsEffects from './app/shared/store/effects(tags)';
+import * as articleEffects from './app/article/store/effects';
+import * as createArticleEffects from './app/createArticle/store/effects';
+import * as editArticleEffects from './app/editArticle/store/effects';
+import {
+  createArticleFeatureKey,
+  createArticleReducer,
+} from './app/createArticle/store/reducers';
+import {
+  articleFeatureKey,
+  articleReducer,
+} from './app/article/store/reducers';
+import {
+  editArticleFeatureKey,
+  editArticleReducer,
+} from './app/editArticle/store/reducers';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -23,18 +38,28 @@ bootstrapApplication(AppComponent, {
       router: routerReducer,
     }),
     provideStoreDevtools({
-      maxAge: 25,
+      maxAge: 30,
       logOnly: !isDevMode(),
       autoPause: true,
       trace: false,
-      traceLimit: 75,
+      traceLimit: 100,
     }),
     provideState(authFeatureKey, authReducer),
     provideState(feedFeatureKey, feedReducer),
     provideState(tagFeatureKey, tagReducer),
+    provideState(createArticleFeatureKey, createArticleReducer),
+    provideState(articleFeatureKey, articleReducer),
+    provideState(editArticleFeatureKey, editArticleReducer),
 
     provideHttpClient(withInterceptors([authInterceptor])),
-    provideEffects(authEffects, feedEffects, tagsEffects),
+    provideEffects(
+      authEffects,
+      feedEffects,
+      tagsEffects,
+      createArticleEffects,
+      articleEffects,
+      editArticleEffects
+    ),
     provideRouterStore(),
   ],
 });

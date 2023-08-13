@@ -24,14 +24,19 @@ export const appRoutes: Route[] = [
   {
     path: 'articles/new',
     loadChildren: () =>
-      import('./CreateArticle/createArticle.routing').then(
+      import('./createArticle/createArticle.routing').then(
         (m) => m.createArticleRoutes
       ),
   },
   {
-    path: 'article/:slug',
+    path: 'articles/:slug',
     loadChildren: () =>
       import('./article/article.routing').then((m) => m.routes),
+  },
+  {
+    path: 'articles/:slug/edit',
+    loadChildren: () =>
+      import('./editArticle/editArticle.routing').then((m) => m.routes),
   },
   {
     path: 'tags/:tagName',
