@@ -21,13 +21,13 @@ const feedFeature = createFeature({
       ...state,
       isLoading: false,
       error: null,
-      feeds: action.article,
+      article: action.article,
     })),
     on(articleActions.getArticleFailure, (state) => ({
       ...state,
       isLoading: false,
       error: '',
-      feeds: null,
+      article: null,
     })),
     on(routerNavigationAction, () => initialState)
   ),
