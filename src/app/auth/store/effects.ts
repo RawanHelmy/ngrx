@@ -107,3 +107,40 @@ export const getUserEffect = createEffect(
   },
   { functional: true }
 );
+export const updateUserEffect = createEffect(
+  (actions$ = inject(Actions), authService = inject(AuthService)) => {
+    return actions$.pipe(
+      ofType(authActions.updateUser),
+      switchMap(({ user }) => {
+        return authService.updateUser(user).pipe(
+          map((currentUser: CurrentUserInterface) => {
+            return authActions.updateUserSuccess({ user: currentUser });
+          }),
+          catchError((err: HttpErrorResponse) => {
+            return of(
+              authActions.updateUserFailure({ errors: err.error.errors })
+            );
+          })
+        );
+      })
+    );
+  },
+  { functional: true }
+);
+
+export const logoutEffect = createEffect(
+  (
+    actions$ = inject(Actions),
+    presistanceService = inject(PersistanceService),
+    router = inject(Router)
+  ) => {
+    return actions$.pipe(
+      ofType(authActions.logout),
+      tap(() => {
+        presistanceService.set('token', '');
+        router.navigateByUrl('/');
+      })
+    );
+  },
+  { functional: true, dispatch: false }
+);

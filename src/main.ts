@@ -18,6 +18,7 @@ import * as tagsEffects from './app/shared/store/effects(tags)';
 import * as articleEffects from './app/article/store/effects';
 import * as createArticleEffects from './app/createArticle/store/effects';
 import * as editArticleEffects from './app/editArticle/store/effects';
+import * as addToFavoriteEffects from './app/shared/components/add-to-favorite/store/effects';
 import {
   createArticleFeatureKey,
   createArticleReducer,
@@ -58,7 +59,8 @@ bootstrapApplication(AppComponent, {
       tagsEffects,
       createArticleEffects,
       articleEffects,
-      editArticleEffects
+      editArticleEffects,
+      addToFavoriteEffects
     ),
     provideRouterStore(),
   ],

@@ -43,4 +43,9 @@ export const appRoutes: Route[] = [
     loadChildren: () =>
       import('./tagFeed/tagFeed.routing').then((m) => m.tagFeedRoutes),
   },
+  {
+    path: 'settings',
+    loadChildren: () =>
+      import('./settings/settings.routing').then((m) => m.Routes),
+  },
 ];
